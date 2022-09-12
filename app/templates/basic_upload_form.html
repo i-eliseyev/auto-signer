@@ -1,16 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
+{{super()}}
 
 <html>
   <head>
-    <title>File Upload</title>
+    <title>KKAutoSigner</title>
   </head>
   <body>
-    <h1>File Upload</h1>
+  <div style="max-width: 500px; margin: auto;">
+    <h1>Dohovor na dobychu:</h1>
     <form method="POST" action="" enctype="multipart/form-data">
-      <p><input type="file" name="file" multiple accept=".pdf"></p>
-      <p><input type="submit" value="Submit"></p>
+      <button class="btn btn-secondary" role="button"><input type="file" name="file" multiple accept=".pdf"></button><p></p>
+      <button class="btn btn-secondary" role="button"><input type="submit" value="Поставить печать и подписать"></button>
     </form>
+    </div>
   </body>
 </html>
 {% endblock %}
