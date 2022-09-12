@@ -1,10 +1,11 @@
 from flask import Flask
 
-from ..config import Config
+from config import Config
 
-config = Config()
-app = Flask(__name__)
-app.config.from_object(config)
+def create_app():
+    config = Config()
+    app = Flask(__name__)
+    app.config.from_object(config)
+    return app
 
-
-from ..app import routes
+from app import routes

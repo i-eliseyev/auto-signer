@@ -7,8 +7,8 @@ from flask import render_template, request, url_for, redirect,  flash, send_file
 from werkzeug.utils import secure_filename
 from werkzeug.wsgi import FileWrapper
 
-from ..app import app
-from ..main import sign
+from auto_signer import app
+from main import sign
 
 UPLOAD_EXTENSIONS = ['.pdf']
 
@@ -33,7 +33,6 @@ def upload_file():
             filename = os.path.splitext(filename)[0] +'.png'
             raw_png_file.filename = filename
             signed_pil_obj.append(sign(raw_png_file))
-
 
     def get_file_buf(file):
         file_object = io.BytesIO()
