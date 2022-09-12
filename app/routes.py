@@ -1,13 +1,11 @@
 import io
 import os
 import zipfile
-from typing import Optional
 from pdf2image import convert_from_bytes
 from flask import render_template, request, url_for, redirect,  flash, send_file
 from werkzeug.utils import secure_filename
-from werkzeug.wsgi import FileWrapper
 
-from auto_signer import app
+from app import app
 from main import sign
 
 UPLOAD_EXTENSIONS = ['.pdf']
@@ -21,7 +19,6 @@ def index():
 @app.route('/', methods=['POST'])
 def upload_file():
     signed_pil_obj = []
-    signed_pdfs = []
     for uploaded_file in request.files.getlist('file'):
         filename = secure_filename(uploaded_file.filename)
         if filename != '':
@@ -47,7 +44,6 @@ def upload_file():
         for file_name, data in list_of_tuples:
             zip_file.writestr(file_name, data.read())
     zip_buffer.seek(0)
-    wrapped_zip = FileWrapper(zip_buffer)
     zip_buffer.seek(0)
     return send_file(zip_buffer,
             mimetype ='zip',
