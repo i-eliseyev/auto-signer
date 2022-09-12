@@ -1,1 +1,1 @@
-FLASK_APP=auto_signer.py
+FLASK_APP=wsgi.py

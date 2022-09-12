@@ -45,11 +45,11 @@ def upload_file():
             zip_file.writestr(file_name, data.read())
     zip_buffer.seek(0)
     zip_buffer.seek(0)
-    return send_file(zip_buffer,
-            mimetype ='zip',
-            download_name='signed_docs.zip',
-            as_attachment=True)
+    return send_file(
+        zip_buffer,
+        mimetype='zip',
+        download_name='signed_docs.zip',
+        as_attachment=True
+    )
 
-    # with open('test.zip', 'wb') as f:
-    #     f.write(zip_buffer.getvalue())
-    # return redirect(url_for('index'))
+
