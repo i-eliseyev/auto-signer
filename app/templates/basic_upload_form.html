@@ -1,19 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
 {{super()}}
-
 <html>
   <head>
-    <title>KKAutoSigner</title>
+      <title>KKAutoSigner</title>
   </head>
-  <body>
-  <div style="max-width: 500px; margin: auto;">
-    <h1>Dohovor na dobychu:</h1>
-    <form method="POST" action="" enctype="multipart/form-data">
-      <button class="btn btn-secondary" role="button"><input type="file" name="file" multiple accept=".pdf"></button><p></p>
-      <button class="btn btn-secondary" role="button"><input type="submit" value="Поставить печать и подписать"></button>
-    </form>
-    </div>
-  </body>
+	  <body>
+<title>AutoSigner</title>
+<div style="max-width: 500px; margin: auto;">
+<h2>Выберете файлы для подписи: </h2>
+
+<form method="post" action="/" enctype="multipart/form-data">
+    <dl>
+		<p>
+			<button class="btn btn-secondary" role="button"><input  type="file" name="files[]" multiple="true" autocomplete="off" accept=".pdf" required></button>
+		</p>
+    </dl>
+    <p>
+		<button class="btn btn-secondary" role="button"><input class="glyphicon-briefcase" type="submit" value="Поставить печать и подписать"></button>
+	</p>
+</form>
+</div>
+	    </body>
 </html>
 {% endblock %}
