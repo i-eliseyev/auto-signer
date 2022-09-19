@@ -1,9 +1,13 @@
 from PIL import Image
-from PIL.PngImagePlugin import PngImageFile
 import pytesseract
 
+from app.routes import SignData
 
-def sign(image: PngImageFile, original_filename: str):
+
+def sign(sign_data: SignData) -> tuple:
+    image = sign_data.image
+    original_filename = sign_data.original_filename
+
     target = 'Бобылев'
     data = pytesseract.image_to_data(
         image,
@@ -34,4 +38,5 @@ def sign(image: PngImageFile, original_filename: str):
     image.paste(sign, (sign_x, sign_y),  sign)
     image.paste(_print, (print_x, print_y), _print)
     image.filename = original_filename
-    return image
+
+    return image, original_filename

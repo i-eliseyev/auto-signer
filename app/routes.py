@@ -1,11 +1,14 @@
 import io
 import os
 import zipfile
+from concurrent.futures import ProcessPoolExecutor
+
 from pdf2image import convert_from_bytes
 from flask import render_template, request, redirect,  flash, send_file
 from werkzeug.utils import secure_filename
 
 from app import app
+from app.types import SignData
 from main import sign
 
 
@@ -31,7 +34,12 @@ def upload_file():
                 raw_png_file = convert_from_bytes(uploaded_file.stream.read(), fmt='png')[0]
                 filename = os.path.splitext(filename)[0] + '.png'
                 raw_png_file.filename = filename
-                signed_pil_obj.append(sign(raw_png_file, original_filename))
+                signed_pil_obj.append(SignData(raw_png_file, original_filename))
+
+        with ProcessPoolExecutor(max_workers=2) as executor:
+            converted_docs = []
+            for result in executor.map(sign, signed_pil_obj):
+                converted_docs.append(result)
 
         def get_file_buf(file):
             file_object = io.BytesIO()
@@ -39,7 +47,7 @@ def upload_file():
             file_object.seek(0)
             return file_object
 
-        list_of_tuples = [(_.filename, get_file_buf(_)) for _ in signed_pil_obj]
+        list_of_tuples = [(doc[1], get_file_buf(doc[0])) for doc in converted_docs]
 
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
